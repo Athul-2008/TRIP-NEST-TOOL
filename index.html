@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Plan trips, save places, organize activities, and keep an eye on your travel budget with Trip Nest.">
+  <title>Trip Nest | Your travel planner</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="Trip Nest home">
+      <span class="brand-mark" aria-hidden="true">TN</span>
+      <span>Trip Nest</span>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="#my-trips">My trips</a>
+      <a href="#saved-places">Saved places</a>
+    </nav>
+    <button class="button button-outline account-button" id="accountButton" type="button">Log in</button>
+  </header>
+
+  <main id="home" class="page-wrap">
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="hero-copy">
+        <p class="eyebrow">A little space for big plans</p>
+        <h1 id="heroTitle">Your next getaway,<br><span>all in one place.</span></h1>
+        <p class="hero-text">Keep your places, plans, and travel budget together. Start with an idea and build the trip as you go.</p>
+        <div class="hero-actions">
+          <button class="button button-primary" id="addTripButton" type="button">Plan a trip <span aria-hidden="true">＋</span></button>
+          <a class="text-link" href="#my-trips">See my plans <span aria-hidden="true">↓</span></a>
+        </div>
+        <p class="hello-message" id="helloMessage" aria-live="polite">Your travel plans are saved in this browser.</p>
+      </div>
+    </section>
+
+    <section class="stats-row" aria-label="Trip summary">
+      <article class="stat-card">
+        <span class="stat-label">Trips planned</span>
+        <strong class="stat-value" id="tripCount">0</strong>
+        <span class="stat-note">Your ideas, taking shape</span>
+      </article>
+      <article class="stat-card">
+        <span class="stat-label">Saved places</span>
+        <strong class="stat-value" id="placeCount">0</strong>
+        <span class="stat-note">For the someday list</span>
+      </article>
+      <article class="stat-card stat-card-accent">
+        <span class="stat-label">Planned budget</span>
+        <strong class="stat-value" id="budgetTotal">₹0</strong>
+        <span class="stat-note">Across all your trips</span>
+      </article>
+    </section>
+
+    <section class="planner-section" id="my-trips" aria-labelledby="tripsTitle">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Your travel notebook</p>
+          <h2 id="tripsTitle">Trips in the making</h2>
+        </div>
+      </div>
+
+      <div class="planner-grid">
+        <div class="trip-column">
+          <div class="toolbar">
+            <label class="search-box">
+              <span class="search-label">Search trips</span>
+              <span class="search-icon" aria-hidden="true">⌕</span>
+              <input id="tripSearch" type="search" placeholder="Search trips or places">
+            </label>
+            <label class="filter-label" for="tripFilter">Filter</label>
+            <select id="tripFilter" class="filter-select">
+              <option value="all">All trips</option>
+              <option value="upcoming">Upcoming</option>
+              <option value="favorites">Favorites</option>
+            </select>
+          </div>
+          <div class="trip-list" id="tripList" aria-live="polite"></div>
+        </div>
+
+        <aside class="side-column" aria-label="Saved places and planning note">
+          <section class="panel places-panel" id="saved-places" aria-labelledby="placesTitle">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Keep close</p>
+                <h2 id="placesTitle">Saved places</h2>
+              </div>
+              <span class="small-count" id="savedPlaceCount">0</span>
+            </div>
+            <p class="panel-intro">Collect places you would love to visit, even before the dates are set.</p>
+            <form id="placeForm" class="place-form">
+              <label for="placeName">Place name</label>
+              <input id="placeName" name="placeName" type="text" placeholder="e.g. Pondicherry" required maxlength="60">
+              <label for="placeCountry">Country or region</label>
+              <input id="placeCountry" name="placeCountry" type="text" placeholder="e.g. India" maxlength="50">
+              <button class="button button-dark button-full" type="submit">Save this place</button>
+            </form>
+            <label class="search-label" for="placeSearch">Search saved places</label>
+            <input class="place-search" id="placeSearch" type="search" placeholder="Find a saved place">
+            <div class="place-list" id="placeList" aria-live="polite"></div>
+          </section>
+        </aside>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <a class="brand brand-footer" href="#home"><span class="brand-mark" aria-hidden="true">TN</span><span>Trip Nest</span></a>
+      <p>A simple travel-planning project made with HTML, CSS, and JavaScript.</p>
+    </footer>
+  </main>
+
+  <dialog class="dialog" id="tripDialog" aria-labelledby="tripDialogTitle">
+    <form id="tripForm" class="dialog-card">
+      <div class="dialog-heading">
+        <div><p class="eyebrow">A new page in your notebook</p><h2 id="tripDialogTitle">Plan a trip</h2></div>
+        <button class="icon-button" type="button" data-close="tripDialog" aria-label="Close trip form">×</button>
+      </div>
+      <input id="tripId" type="hidden">
+      <label for="tripName">Trip name</label>
+      <input id="tripName" name="tripName" type="text" placeholder="e.g. A few days in the hills" maxlength="70" required>
+      <label for="tripDestination">Destination</label>
+      <input id="tripDestination" name="tripDestination" type="text" placeholder="e.g. Manali, India" maxlength="70" required>
+      <div class="form-row">
+        <div><label for="tripStart">Start date</label><input id="tripStart" name="tripStart" type="date" required></div>
+        <div><label for="tripEnd">End date</label><input id="tripEnd" name="tripEnd" type="date" required></div>
+      </div>
+      <label for="tripBudget">Estimated budget (₹)</label>
+      <input id="tripBudget" name="tripBudget" type="number" min="0" step="100" placeholder="e.g. 25000">
+      <p class="form-hint">This demo saves trip details in your browser only.</p>
+      <div class="dialog-actions">
+        <button class="button button-outline" type="button" data-close="tripDialog">Cancel</button>
+        <button class="button button-primary" id="saveTripButton" type="submit">Save trip</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="dialog" id="itineraryDialog" aria-labelledby="itineraryTitle">
+    <div class="dialog-card itinerary-card">
+      <div class="dialog-heading">
+        <div><p class="eyebrow">The little details</p><h2 id="itineraryTitle">Trip itinerary</h2><p class="dialog-subtitle" id="itinerarySubtitle"></p></div>
+        <button class="icon-button" type="button" data-close="itineraryDialog" aria-label="Close itinerary">×</button>
+      </div>
+      <div class="itinerary-toolbar">
+        <h3>Activities</h3>
+      </div>
+      <div id="activityList" class="activity-list" aria-live="polite"></div>
+      <form id="activityForm" class="activity-form">
+        <h3 id="activityFormTitle">Add an activity</h3>
+        <input id="activityId" type="hidden">
+        <div class="form-row">
+          <div><label for="activityName">Activity</label><input id="activityName" type="text" placeholder="e.g. Visit the old market" required maxlength="70"></div>
+          <div><label for="activityPlace">Place</label><input id="activityPlace" type="text" placeholder="Where is it?" maxlength="60"></div>
+        </div>
+        <div class="form-row form-row-three">
+          <div><label for="activityDate">Date</label><input id="activityDate" type="date"></div>
+          <div><label for="activityTime">Time</label><input id="activityTime" type="time"></div>
+          <div><label for="activityCost">Cost (₹)</label><input id="activityCost" type="number" min="0" step="50" placeholder="0"></div>
+        </div>
+        <label for="activityNotes">Notes</label>
+        <textarea id="activityNotes" rows="2" maxlength="180" placeholder="Anything to remember?"></textarea>
+        <div class="dialog-actions">
+          <button class="button button-outline hidden" id="cancelActivityEdit" type="button">Cancel edit</button>
+          <button class="button button-primary" id="saveActivityButton" type="submit">Add activity</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <dialog class="dialog" id="accountDialog" aria-labelledby="accountTitle">
+    <div class="dialog-card account-card">
+      <div class="dialog-heading">
+        <div><p class="eyebrow">Just for this demo</p><h2 id="accountTitle">Your Trip Nest</h2></div>
+        <button class="icon-button" type="button" data-close="accountDialog" aria-label="Close account window">×</button>
+      </div>
+      <p class="form-hint account-notice">This is a classroom-only sign-in example. It does not use a server or provide secure authentication.</p>
+      <div class="account-tabs">
+        <button class="account-tab active" id="loginTab" type="button">Log in</button>
+        <button class="account-tab" id="registerTab" type="button">Register</button>
+      </div>
+      <form id="loginForm" class="account-form">
+        <label for="loginEmail">Email</label><input id="loginEmail" type="email" placeholder="you@example.com" required>
+        <label for="loginPassword">Password</label><input id="loginPassword" type="password" minlength="6" placeholder="At least 6 characters" required>
+        <button class="button button-primary button-full" type="submit">Log in to demo</button>
+      </form>
+      <form id="registerForm" class="account-form hidden">
+        <label for="registerName">Your name</label><input id="registerName" type="text" placeholder="What should we call you?" maxlength="60" required>
+        <label for="registerEmail">Email</label><input id="registerEmail" type="email" placeholder="you@example.com" required>
+        <label for="registerPassword">Password</label><input id="registerPassword" type="password" minlength="6" placeholder="At least 6 characters" required>
+        <button class="button button-primary button-full" type="submit">Create demo account</button>
+      </form>
+      <button class="text-button logout-button hidden" id="logoutButton" type="button">Log out</button>
+    </div>
+  </dialog>
+</body>
+</html>
